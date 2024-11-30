@@ -1,5 +1,3 @@
-tmp: clean all
-
 all: clinic.svg clinic.png
 
 clinic.png: clinic.svg
