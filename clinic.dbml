@@ -1,0 +1,49 @@
+Table clients {
+	id		integer [pk]
+	first_name	varchar(255) [not null]
+	last_name	varchar(255) [not null]
+	patronym	varchar(255) [null]
+	age		integer [null]
+}
+
+Table doctors {
+	id		integer [pk]
+	first_name	varchar(255) [not null]
+	last_name	varchar(255) [not null]
+	patronym	varchar(255) [null]
+	age		integer [null]
+}
+
+enum slot_status {
+	empty
+	scheduled
+	completed
+	canceled
+}
+
+Table slots {
+	id		integer [pk]
+	doctor_id	integer [not null]
+	client_id	integer	[null]
+	date		date [not null]
+	start_time	time [not null]
+	duration	interval [not null]
+	status		slot_status [not null]
+}
+
+enum cancellation_reason {
+	canceled_by_doctor
+	canceled_by_client
+}
+
+Table cancellations {
+	id		integer [pk]
+	slot_id		integer [not null]
+	reason		cancellation_reason [not null] 
+	doctor_comment	varchar(4096) [null]
+	client_comment	varchar(4096) [null]
+}
+
+Ref: slots.id - cancellations.slot_id
+Ref: doctors.id < slots.doctor_id
+Ref: clients.id < slots.client_id
